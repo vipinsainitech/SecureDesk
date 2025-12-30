@@ -195,4 +195,3 @@ extension Notification.Name {
     static let clearFiltersRequested = Notification.Name("clearFiltersRequested")
     static let openDebugMenuRequested = Notification.Name("openDebugMenuRequested")
 }
-

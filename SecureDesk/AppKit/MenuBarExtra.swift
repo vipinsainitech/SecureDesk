@@ -78,10 +78,23 @@ final class MenuBarManager {
         let headerItem = NSMenuItem(title: "SecureDesk", action: nil, keyEquivalent: "")
         headerItem.isEnabled = false
         menu.addItem(headerItem)
-        
         menu.addItem(NSMenuItem.separator())
         
         // Quick Actions
+        addQuickActions(to: menu)
+        menu.addItem(NSMenuItem.separator())
+        
+        // Status
+        addStatusSubmenu(to: menu)
+        menu.addItem(NSMenuItem.separator())
+        
+        // Footer actions
+        addFooterActions(to: menu)
+        
+        return menu
+    }
+    
+    private func addQuickActions(to menu: NSMenu) {
         let newItemAction = NSMenuItem(
             title: "New Item",
             action: #selector(newItemAction(_:)),
@@ -99,10 +112,9 @@ final class MenuBarManager {
         refreshAction.target = self
         refreshAction.keyEquivalentModifierMask = [.command]
         menu.addItem(refreshAction)
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        // Status
+    }
+    
+    private func addStatusSubmenu(to menu: NSMenu) {
         let statusSubmenu = NSMenu()
         
         let networkMonitor = NetworkMonitor.shared
@@ -127,10 +139,9 @@ final class MenuBarManager {
         let statusItem = NSMenuItem(title: "Status", action: nil, keyEquivalent: "")
         statusItem.submenu = statusSubmenu
         menu.addItem(statusItem)
-        
-        menu.addItem(NSMenuItem.separator())
-        
-        // Open App
+    }
+    
+    private func addFooterActions(to menu: NSMenu) {
         let openAppAction = NSMenuItem(
             title: "Open SecureDesk",
             action: #selector(openAppAction(_:)),
@@ -141,7 +152,6 @@ final class MenuBarManager {
         
         menu.addItem(NSMenuItem.separator())
         
-        // Quit
         let quitAction = NSMenuItem(
             title: "Quit SecureDesk",
             action: #selector(quitAction(_:)),
@@ -150,8 +160,6 @@ final class MenuBarManager {
         quitAction.target = self
         quitAction.keyEquivalentModifierMask = [.command]
         menu.addItem(quitAction)
-        
-        return menu
     }
     
     // MARK: - Actions

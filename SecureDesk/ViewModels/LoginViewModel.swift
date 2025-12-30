@@ -65,7 +65,6 @@ final class LoginViewModel {
             
             // Clear sensitive data
             password = ""
-            
         } catch let error as AuthError {
             errorMessage = error.localizedDescription
         } catch {

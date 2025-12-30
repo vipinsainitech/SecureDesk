@@ -54,7 +54,8 @@ struct AuthToken: Codable, Equatable, Sendable {
 extension AuthToken {
     /// Sample token for previews and testing
     static let preview = AuthToken(
-        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfcHJldmlld18wMDEiLCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNjk4NzY1NDMyLCJleHAiOjE2OTg3NjkwMzJ9.mock_signature",
+        accessToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c3JfcHJldmlld18wMDEi" +
+            "LCJlbWFpbCI6ImpvaG4uZG9lQGV4YW1wbGUuY29tIiwiaWF0IjoxNjk4NzY1NDMyLCJleHAiOjE2OTg3NjkwMzJ9.mock_signature",
         refreshToken: "refresh_token_mock_001",
         expiresAt: Date().addingTimeInterval(3600), // 1 hour from now
         tokenType: "Bearer"
