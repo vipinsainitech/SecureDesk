@@ -1,0 +1,81 @@
+[
+    {
+        "id": "item_001",
+        "title": "Review Q4 Reports",
+        "description": "Review and approve the quarterly financial reports before the board meeting.",
+        "status": "in_progress",
+        "priority": "high",
+        "created_at": "2024-12-15T10:00:00Z",
+        "updated_at": "2024-12-28T14:30:00Z",
+        "created_by": "usr_001",
+        "due_date": "2024-12-31T17:00:00Z",
+        "tags": [
+            "finance",
+            "quarterly",
+            "review"
+        ]
+    },
+    {
+        "id": "item_002",
+        "title": "Update Security Policies",
+        "description": "Update the security policies document with new compliance requirements for 2025.",
+        "status": "pending",
+        "priority": "urgent",
+        "created_at": "2024-12-20T09:00:00Z",
+        "updated_at": "2024-12-27T11:00:00Z",
+        "created_by": "usr_001",
+        "due_date": "2024-12-30T17:00:00Z",
+        "tags": [
+            "security",
+            "compliance",
+            "policy"
+        ]
+    },
+    {
+        "id": "item_003",
+        "title": "Team Onboarding Session",
+        "description": "Prepare and conduct onboarding session for new team members starting in January.",
+        "status": "completed",
+        "priority": "medium",
+        "created_at": "2024-12-10T08:00:00Z",
+        "updated_at": "2024-12-25T16:00:00Z",
+        "created_by": "usr_002",
+        "due_date": null,
+        "tags": [
+            "hr",
+            "onboarding",
+            "training"
+        ]
+    },
+    {
+        "id": "item_004",
+        "title": "Database Migration Planning",
+        "description": "Plan the migration from PostgreSQL 14 to 16 with minimal downtime.",
+        "status": "in_progress",
+        "priority": "high",
+        "created_at": "2024-12-22T11:00:00Z",
+        "updated_at": "2024-12-28T10:00:00Z",
+        "created_by": "usr_001",
+        "due_date": "2025-01-15T17:00:00Z",
+        "tags": [
+            "database",
+            "infrastructure",
+            "migration"
+        ]
+    },
+    {
+        "id": "item_005",
+        "title": "Update API Documentation",
+        "description": "Update the API documentation with new endpoints and deprecation notices.",
+        "status": "pending",
+        "priority": "low",
+        "created_at": "2024-12-26T10:00:00Z",
+        "updated_at": "2024-12-26T10:00:00Z",
+        "created_by": "usr_003",
+        "due_date": "2025-01-10T17:00:00Z",
+        "tags": [
+            "documentation",
+            "api"
+        ]
+    }
+]

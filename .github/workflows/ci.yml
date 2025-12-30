@@ -1,0 +1,148 @@
+# SecureDesk CI/CD Pipeline
+# Runs on push to main/develop and pull requests
+
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  DEVELOPER_DIR: /Applications/Xcode.app/Contents/Developer
+
+jobs:
+  # Linting job
+  lint:
+    name: SwiftLint
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install SwiftLint
+        run: brew install swiftlint
+
+      - name: Run SwiftLint
+        run: swiftlint lint --strict --reporter github-actions-logging
+
+  # Build and Test job
+  build-and-test:
+    name: Build & Test
+    runs-on: macos-latest
+    needs: lint
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
+      - name: Show Xcode version
+        run: xcodebuild -version
+
+      - name: Build
+        run: |
+          xcodebuild build \
+            -project SecureDesk.xcodeproj \
+            -scheme SecureDesk \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | xcpretty
+
+      - name: Run Unit Tests
+        run: |
+          xcodebuild test \
+            -project SecureDesk.xcodeproj \
+            -scheme SecureDesk \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            -resultBundlePath TestResults.xcresult \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | xcpretty --report junit
+
+      - name: Upload Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-results
+          path: TestResults.xcresult
+
+      - name: Upload JUnit Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: junit-report
+          path: build/reports/junit.xml
+
+  # UI Tests job (separate for better parallelism)
+  ui-tests:
+    name: UI Tests
+    runs-on: macos-latest
+    needs: build-and-test
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
+      - name: Run UI Tests
+        run: |
+          xcodebuild test \
+            -project SecureDesk.xcodeproj \
+            -scheme SecureDeskUITests \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            -resultBundlePath UITestResults.xcresult \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            | xcpretty
+        continue-on-error: true
+
+      - name: Upload UI Test Results
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: ui-test-results
+          path: UITestResults.xcresult
+
+  # Code coverage (optional)
+  coverage:
+    name: Code Coverage
+    runs-on: macos-latest
+    needs: build-and-test
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode
+        run: sudo xcode-select -switch /Applications/Xcode.app
+
+      - name: Generate Coverage
+        run: |
+          xcodebuild test \
+            -project SecureDesk.xcodeproj \
+            -scheme SecureDesk \
+            -destination 'platform=macOS' \
+            -configuration Debug \
+            -enableCodeCoverage YES \
+            -resultBundlePath CoverageResults.xcresult \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO
+
+      - name: Extract Coverage Report
+        run: |
+          xcrun xccov view --report CoverageResults.xcresult > coverage.txt
+          cat coverage.txt
+
+      - name: Upload Coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage.txt
