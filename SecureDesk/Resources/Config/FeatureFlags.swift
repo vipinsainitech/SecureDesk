@@ -80,6 +80,7 @@ enum FeatureFlags {
     static var apiBaseURL: URL {
         if useMockServices {
             // Mock services don't need a real URL
+            // swiftlint:disable:next force_unwrapping
             return URL(string: "https://mock.securedesk.local")!
         }
         
@@ -90,6 +91,7 @@ enum FeatureFlags {
         }
         
         // Default production URL
+        // swiftlint:disable:next force_unwrapping
         return URL(string: "https://api.securedesk.app")!
     }
 }

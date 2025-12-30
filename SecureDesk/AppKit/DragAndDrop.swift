@@ -119,7 +119,7 @@ struct FileDropZone: View {
         for provider in providers {
             for type in allowedTypes {
                 if provider.hasItemConformingToTypeIdentifier(type.identifier) {
-                    provider.loadFileRepresentation(forTypeIdentifier: type.identifier) { url, error in
+                    provider.loadFileRepresentation(forTypeIdentifier: type.identifier) { url, _ in
                         if let url = url {
                             // Copy to temp location if needed
                             let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(url.lastPathComponent)

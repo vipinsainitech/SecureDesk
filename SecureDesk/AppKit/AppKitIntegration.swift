@@ -63,10 +63,10 @@ class AppToolbar: NSToolbar, NSToolbarDelegate {
     static let mainToolbarIdentifier = NSToolbar.Identifier("MainToolbar")
     
     private enum ToolbarItemIdentifier: String {
-        case search = "search"
-        case newItem = "newItem"
-        case refresh = "refresh"
-        case flexibleSpace = "flexibleSpace"
+        case search
+        case newItem
+        case refresh
+        case flexibleSpace
         
         var identifier: NSToolbarItem.Identifier {
             NSToolbarItem.Identifier(rawValue)

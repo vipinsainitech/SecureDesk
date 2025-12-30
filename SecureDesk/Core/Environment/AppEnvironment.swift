@@ -54,14 +54,18 @@ enum AppEnvironment: String, CaseIterable, Identifiable, Sendable {
     
     /// Base URL for API requests
     var baseURL: URL {
+        // swiftlint:disable:next force_unwrapping
+        URL(string: baseURLString)!
+    }
+    
+    private var baseURLString: String {
         switch self {
         case .mock:
-            // Mock doesn't need a real URL
-            return URL(string: "https://mock.securedesk.local")!
+            return "https://mock.securedesk.local"
         case .staging:
-            return URL(string: "https://staging-api.securedesk.app")!
+            return "https://staging-api.securedesk.app"
         case .production:
-            return URL(string: "https://api.securedesk.app")!
+            return "https://api.securedesk.app"
         }
     }
     
